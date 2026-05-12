@@ -1,0 +1,34 @@
+<div class="store-selector-container">
+  <div class="header">
+    <h3>Select Store</h3>
+    <p>Choose the store profile to use for the product cards</p>
+  </div>
+
+  <div class="store-grid">
+    @for (store of stores; track store.storeName) {
+      <div 
+        class="store-item" 
+        [class.active]="selectedStore.storeName === store.storeName"
+        (click)="selectStore(store)"
+      >
+        <div class="status-indicator">
+          @if (selectedStore.storeName === store.storeName) {
+            <span class="badge">Active</span>
+          }
+        </div>
+        
+        <div class="store-info">
+          <h4 class="name">{{ store.storeName }}</h4>
+          <p class="location">📍 {{ store.storeLocation }}</p>
+        </div>
+
+        <div class="store-details">
+          <span class="contact">📱 {{ store.storeWhatsapp }}</span>
+          @if (store.storeWebsite) {
+            <span class="link">🌐 Website available</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

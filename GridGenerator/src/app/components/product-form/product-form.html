@@ -1,0 +1,72 @@
+<div class="form-container">
+  <form (submit)="onFormSubmit()" >
+    
+    <!-- Section: Basic Product Info -->
+    <fieldset>
+      <legend>Product Details</legend>
+      <div class="input-group">
+        <label for="pName">Product Name</label>
+        <input id="pName" name="pName" [(ngModel)]="productName" placeholder="e.g. iPhone 15 Pro" required (ngModelChange)="onFormChange()">
+      </div>
+
+      <div class="input-group">
+        <label for="pCode">Product Code / SKU</label>
+        <input id="pCode" name="pCode" [(ngModel)]="productCode" placeholder="e.g. SBM-001" (ngModelChange)="onFormChange()">
+      </div>
+    </fieldset>
+
+    <!-- Section: Pricing -->
+    <fieldset>
+      <legend>Pricing</legend>
+      <div class="row">
+        <div class="input-group">
+          <label>Original Price</label>
+          <input type="number" name="pOriginal" [(ngModel)]="productOriginalPrice" (ngModelChange)="onOriginalPriceChange()">
+        </div>
+
+        <div class="input-group">
+          <label>Discount (%)</label>
+          <input type="number" name="pDiscount" [(ngModel)]="productDiscout" (ngModelChange)="onDiscountChange()">
+        </div>
+
+        <div class="input-group">
+          <label>Final Price</label>
+          <input type="number" name="pPrice" [(ngModel)]="productPrice" (ngModelChange)="onFinalPriceChange()">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Section: Specifications Manager -->
+    <fieldset>
+      <legend>Specifications</legend>
+      
+      <!-- Add New Spec Row -->
+      <div class="spec-add-row">
+        <input #newKey placeholder="Key (e.g. RAM)">
+        <input #newValue placeholder="Value (e.g. 16GB)">
+        <button type="button" (click)="addSpec(newKey.value, newValue.value); newKey.value=''; newValue.value=''">
+          Add
+        </button>
+      </div>
+
+      <!-- Specs List -->
+      <ul class="spec-list">
+        @for (spec of productFullSpecs; track $index) {
+          <li>
+            <span><strong>{{spec.key}}:</strong> {{spec.value}}</span>
+            
+            <div class="spec-actions">
+              <!-- Checkbox to decide if this spec goes into the QR Code -->
+              <label class="qr-toggle">
+                <input type="checkbox" (change)="toggleQRSpec(spec, $event)"> QR?
+              </label>
+              <button type="button" class="btn-remove" (click)="removeSpec($index)">×</button>
+            </div>
+          </li>
+        }
+      </ul>
+    </fieldset>
+
+    <button type="submit" class="btn-submit">Generate Product Card</button>
+  </form>
+</div>

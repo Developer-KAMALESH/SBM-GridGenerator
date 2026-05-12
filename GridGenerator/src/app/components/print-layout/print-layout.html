@@ -1,0 +1,64 @@
+<div class="print-actions no-print">
+  <button (click)="print()" class="btn-print">Print Now</button>
+  <button (click)="downloadPDF()" class="btn-pdf">Download PDF</button>
+  <button (click)="downloadPNG()" class="btn-png">Save as Image</button>
+</div>
+
+<div #printContainer class="print-wrapper" [class]="paperSize.toLowerCase()">
+  @for (page of pages; track $index; let pageIdx = $index) {
+    <div class="page-break">
+      <div class="grid-container" [class]="layout">
+        @for (product of page; track $index; let prodIdx = $index) {
+          <div class="card-item">
+            <!-- Delete Button (Global Index Calculation) -->
+            <button 
+              class="btn-delete no-print" 
+              (click)="removeProduct((pageIdx * (layout === 'full' ? 1 : layout === 'half' ? 2 : 4)) + prodIdx)"
+              title="Remove from queue">
+              ×
+            </button>
+
+            <div class="card-content">
+              <!-- 1. Store Details -->
+              <div class="header">
+                <h2>{{ product.store.storeName }}</h2>
+                <p>📍 {{ product.store.storeLocation }}</p>
+                <p>📱 WhatsApp: {{ product.store.storeWhatsapp }}</p>
+              </div>
+
+              <!-- 2. Product Details -->
+              <div class="product-info">
+                <h3>{{ product.productName }}</h3>
+                <p class="sku">SKU: {{ product.productCode }}</p>
+                
+                <div class="price-box">
+                  @if (product.productDiscount) {
+                    <span class="old-price">₹{{ product.productOriginalPrice }}</span>
+                    <span class="discount">-{{ product.productDiscount }}%</span>
+                  }
+                  <span class="final-price">₹{{ product.productPrice }}</span>
+                </div>
+              </div>
+
+              <!-- 3. QR Section -->
+              <div class="qr-box">
+                <img [src]="qrCodes.get(product.productCode)" alt="Scan for Details">                
+              </div>
+
+              <!-- 4. Specifications -->
+              <div class="specs">
+                <p class="specs-label">Specifications:</p>
+                @for (spec of product.productFullSpecs; track spec.key) {
+                  <div class="spec-row">
+                    <span class="key">{{ spec.key }}</span>
+                    <span class="value">{{ spec.value }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

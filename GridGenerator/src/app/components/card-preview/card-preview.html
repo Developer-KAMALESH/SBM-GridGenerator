@@ -1,0 +1,70 @@
+<div class="card-container">
+  @if (product) {
+    <div class="product-card" id="printable-card">
+      
+      <!-- 1. Store Header (Store Details) -->
+      <header class="store-section">
+  <h2 class="store-name">{{ product.store.storeName }}</h2>
+  <div class="store-meta">
+    <span>📍 {{ product.store.storeLocation }}</span>
+    <span class="contact-highlight">📱 WhatsApp: {{ product.store.storeWhatsapp }}</span>
+    @if (product.store.storeWebsite) {
+      <span class="website">🌐 {{ product.store.storeWebsite }}</span>
+    }
+  </div>
+</header>
+
+      <div class="divider"></div>
+
+      <!-- 2. Product Details (Excluding Specs) -->
+      <main class="product-section">
+        <div class="badge-row">
+          <span class="product-sku">SKU: {{ product.productCode }}</span>
+          @if (product.productDiscount && product.productDiscount > 0) {
+            <span class="discount-badge">{{ product.productDiscount }}% OFF</span>
+          }
+        </div>
+        
+        <h1 class="product-title">{{ product.productName }}</h1>
+
+        <div class="price-container">
+          @if (product.productOriginalPrice && product.productOriginalPrice > product.productPrice) {
+            <span class="original-price">{{ product.productOriginalPrice }}</span>
+          }
+          <span class="current-price">{{ product.productPrice }}</span>
+        </div>
+      </main>
+
+      <!-- 3. QR Code Section -->
+      <section class="qr-section">
+        <div class="qr-box">
+          @if (qrCodeUrl()) {
+            <img [src]="qrCodeUrl()" alt="Scan for Details">
+          } @else {
+            <div class="qr-placeholder"><div class="spinner"></div>
+      <span>Generating...</span>
+    </div>
+          }
+        </div>
+      </section>
+
+      <!-- 4. Specifications (Now Following the QR) -->
+      <section class="specs-section">
+        <h4 class="specs-title">Specifications</h4>
+        <div class="specs-grid">
+          @for (spec of product.productFullSpecs; track spec.key) {
+            <div class="spec-tile">
+              <span class="spec-label">{{ spec.key }}</span>
+              <span class="spec-value">{{ spec.value }}</span>
+            </div>
+          }
+        </div>
+      </section>
+
+    </div>
+  } @else {
+    <div class="no-data">
+      <p>Please enter product details to see the preview.</p>
+    </div>
+  }
+</div>

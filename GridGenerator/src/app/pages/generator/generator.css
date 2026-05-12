@@ -1,0 +1,43 @@
+.nav-tabs .nav-link {
+  cursor: pointer;
+  color: #6c757d;
+  font-weight: 500;
+  border: none;
+}
+
+.nav-tabs .nav-link.active {
+  color: #0d6efd;
+  border-bottom: 2px solid #0d6efd;
+  background: transparent;
+}
+
+.card-body {
+  min-height: 600px;
+  overflow-y: auto;
+}
+
+/* Simple fade animation when switching tabs */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ensure images/components don't overflow the preview card */
+app-card-preview, app-print-layout {
+  display: block;
+  width: 100%;
+}
+
+@media print {
+  @page {
+    margin: 0;
+    size: A4;
+  }
+  body {
+    margin: 0;
+  }
+}

@@ -1,0 +1,190 @@
+/* --- Action Bar (Hidden during print) --- */
+.print-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-bottom: 2px solid #000;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.btn-print { background: #000; color: #fff; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+.btn-pdf, .btn-png { background: #fff; color: #000; border: 2px solid #000; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+
+/* --- Paper Setup --- */
+.print-wrapper {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  overflow:hidden
+}
+
+.page-break {
+  background: white;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+  page-break-after: always;
+  color: #000;
+}
+
+.a4.print-wrapper .page-break { width: 210mm;  padding: 5mm; box-sizing:border-box; }
+.a5.print-wrapper .page-break { width: 148mm; min-height: 210mm; padding: 7mm; }
+
+/* --- Grid & Card Item --- */
+.grid-container { display: grid; gap: 4mm; height: 100%; }
+.grid-container.quarter { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.grid-container.half { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+.grid-container.full { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+
+.card-item {
+  border: dotted 1px #000; 
+  padding: 5mm;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+/* --- 1. Store Header --- */
+.header h2 { 
+  margin: 0; 
+  font-size: 1.4rem; 
+  font-weight: 900; 
+  text-transform: uppercase; 
+}
+.header p { 
+  font-size: 0.9rem; 
+  margin: 2px 0; 
+  font-weight: 700;
+}
+
+/* --- 2. Product Info --- */
+.product-info h3 { 
+  margin: 15px 0 5px; 
+  font-size: 1.8rem; 
+  font-weight: 800; 
+  line-height: 1.1;
+}
+.sku { font-family: monospace; font-size: 0.85rem; color: #000; }
+
+.price-box { 
+  margin: 10px 0; 
+  display: flex; 
+  align-items: baseline; 
+  gap: 12px; 
+}
+.final-price { font-size: 2.5rem; font-weight: 900; }
+.old-price { text-decoration: line-through; font-size: 1.2rem; color: #444; }
+.discount { border: 2px solid #000; padding: 2px 6px; font-weight: 900; font-size: 0.9rem; }
+
+/* --- 3. QR Section (Centered & Increased Size) --- */
+.qr-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers items horizontally */
+  justify-content: center; /* Centers items vertically in its space */
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px dashed #000;
+  border-bottom: 1px dashed #000;
+  margin: 15px 0;
+}
+
+.qr-box img {
+  width: 25mm; /* Increased size to match preview fix */
+  height: 25mm;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.qr-text p { 
+  margin: 0; 
+  font-size: 0.8rem; 
+  text-transform: uppercase; 
+  letter-spacing: 0.5px;
+}
+.qr-text strong { 
+  font-size: 1.1rem; 
+  display: block;
+  margin-top: 2px;
+}
+
+/* --- 4. Specifications (Borderless Table) --- */
+.specs { 
+  flex-grow: 1; 
+}
+.specs-label {
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  border-bottom: 1px solid #000;
+  margin-bottom: 10px;
+  padding-bottom: 2px;
+}
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 4px 0;
+  font-size: 0.9rem;
+}
+.spec-row .key { font-weight: 400; color: #333; }
+.spec-row .value { 
+  font-weight: 700; 
+  text-align: right; 
+  flex-grow: 1; 
+  border-bottom: 1px dotted #000; /* Leader dots */
+  margin-left: 10px;
+}
+
+/* --- Print Settings --- */
+@media print {
+  @page { margin: 0; size: A4; }
+body { margin: 0; }
+  .no-print { display: none !important; }
+  .print-wrapper { padding: 0; background: none; }
+  .page-break { margin: 0; box-shadow: none; border: none; }
+  .card-item { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+.card-item {
+  position: relative; /* Necessary for absolute positioning of delete button */
+  /* ... existing styles ... */
+}
+
+.btn-delete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 10;
+  transition: transform 0.1s;
+}
+
+.btn-delete:hover {
+  transform: scale(1.1);
+  background: #ff6b81;
+}
+
+/* Ensure it is hidden when printing */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
