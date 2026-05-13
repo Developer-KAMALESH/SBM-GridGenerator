@@ -6,7 +6,7 @@ import * as QRCode from 'qrcode';
   providedIn: 'root',
 })
 export class Qr {
-  private readonly BASE_URL:string='https://developer-kamalesh.github.io/SBM-ProductCard/'; 
+  private readonly BASE_URL:string='https://sbm-productcard.netlify.app/'; 
   qrSignal = signal<string>(''); // Reactive signal to hold the QR code URL
   encode(data:CardData):string {
     const qrData = {
